@@ -1,19 +1,25 @@
 import { StyleSheet, View, Pressable, Text } from 'react-native';
 
 interface IProps {
+  id: string,
   title: string;
   color: string;
+  onPress: (id: string) => void;
 }
 
 const CategoryTile = (props: IProps) => {
+  const pressHandler = () => {
+    props.onPress(props.id)
+  }
   return (
     <View style={styles.container}>
-    <Pressable
+      <Pressable
         style={({ pressed }) => [
           styles.pressable,
           { backgroundColor: props.color },
           pressed ? styles.pressed : {},
         ]}
+        onPress={pressHandler}
       >
         <Text style={styles.text}>{props.title}</Text>
       </Pressable>
