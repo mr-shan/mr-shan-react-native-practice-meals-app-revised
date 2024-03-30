@@ -1,4 +1,6 @@
 import { StyleSheet, View, Text, Image, Pressable } from 'react-native';
+
+import MealHeaderDescription from './MealHeaderDescription';
 import COLORS from '../constants/colors';
 
 interface IProps {
@@ -25,11 +27,11 @@ const MealOverviewItem = (props: IProps) => {
         <Image source={{ uri: props.imageUrl }} style={styles.image} />
         <View style={styles.footer}>
           <Text style={styles.title}>{props.title}</Text>
-          <View style={styles.meta}>
-            <Text style={styles.metaText}>{props.affordability}</Text>
-            <Text style={styles.metaText}>{props.complexity}</Text>
-            <Text style={styles.metaText}>{props.duration}</Text>
-          </View>
+          <MealHeaderDescription 
+            affordability={props.affordability}
+            complexity={props.complexity}
+            duration={props.duration}
+          />
         </View>
       </Pressable>
     </View>
@@ -65,11 +67,11 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',    
     marginTop: 8,
+    paddingHorizontal: 8,
   },
   metaText: {
     color: COLORS.textLight,
     flex: 1,
-    textAlign: 'center'
   },
 });
 

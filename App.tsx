@@ -35,6 +35,7 @@ export default function App() {
             options={{
               headerStyle: { backgroundColor: COLORS.primary500 },
               headerTintColor: 'white',
+              headerBackTitleVisible: false
             }}
           />
         </Stack.Navigator>
