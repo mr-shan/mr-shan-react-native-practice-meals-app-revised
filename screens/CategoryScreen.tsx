@@ -5,6 +5,7 @@ import { NavigationProp, ParamListBase } from '@react-navigation/native';
 import { CATEGORIES } from '../data/dummy-data';
 import Category from '../models/category';
 import CategoryTile from '../components/CategoryTile';
+import COLORS from '../constants/colors';
 
 interface IProps {
   navigation: NavigationProp<ParamListBase>;
@@ -12,7 +13,6 @@ interface IProps {
 
 const CategoryScreen = (props: IProps) => {
   const pressHandler = (id: string) => {
-    console.log(id);
     props.navigation.navigate('MealsOverviewScreen', { categoryId: id });
   };
 
@@ -39,7 +39,7 @@ const CategoryScreen = (props: IProps) => {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#2d1a2d',
+    backgroundColor: COLORS.bg500,
     flex: 1,
     paddingTop: Platform.OS === 'android' ? 20 : 0,
   },

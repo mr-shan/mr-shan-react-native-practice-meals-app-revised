@@ -1,18 +1,35 @@
 import { StyleSheet, View, Text, Image, Pressable } from 'react-native';
+import COLORS from '../constants/colors';
 
 interface IProps {
+  id: string;
   imageUrl: string;
   title: string;
   duration: number;
+  affordability: string;
+  complexity: string;
+  onPress: (id: string) => void;
 }
 
 const MealOverviewItem = (props: IProps) => {
+  const pressHandler = () => {
+    props.onPress(props.id);
+  };
   return (
     <View style={styles.container}>
-      <Pressable>
+      <Pressable
+        style={(data) => (data.pressed ? { opacity: 0.7 } : {})}
+        android_ripple={{ color: '#ccc' }}
+        onPress={pressHandler}
+      >
         <Image source={{ uri: props.imageUrl }} style={styles.image} />
         <View style={styles.footer}>
-        <Text style={styles.title}>{props.title}</Text>
+          <Text style={styles.title}>{props.title}</Text>
+          <View style={styles.meta}>
+            <Text style={styles.metaText}>{props.affordability}</Text>
+            <Text style={styles.metaText}>{props.complexity}</Text>
+            <Text style={styles.metaText}>{props.duration}</Text>
+          </View>
         </View>
       </Pressable>
     </View>
@@ -21,7 +38,7 @@ const MealOverviewItem = (props: IProps) => {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#eee',
+    backgroundColor: COLORS.bg700,
     borderRadius: 10,
     elevation: 10,
     shadowColor: 'black',
@@ -36,14 +53,22 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 10,
   },
   footer: {
-    paddingHorizontal: 12,
-    paddingVertical: 15,
+    padding: 10,
   },
   title: {
     fontSize: 16,
     fontWeight: '500',
     color: '#333',
-    textAlign: 'center'
+    textAlign: 'center',
+  },
+  meta: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    gap: 30,
+    marginTop: 8,
+  },
+  metaText: {
+    color: COLORS.textLight,
   },
 });
 

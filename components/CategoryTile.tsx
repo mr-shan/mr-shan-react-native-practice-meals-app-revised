@@ -30,10 +30,10 @@ const CategoryTile = (props: IProps) => {
 const styles = StyleSheet.create({
   container: {
     shadowColor: 'black',
-    shadowOpacity: 0.5,
-    shadowRadius: 6,
+    shadowOpacity: 0.4,
+    shadowRadius: 5,
     shadowOffset: { height: 0, width: 0 },
-    borderRadius: 10,
+    borderRadius: 5,
     flex: 1,
     width: 150,
     height: 150,
