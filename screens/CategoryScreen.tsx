@@ -37,11 +37,12 @@ const CategoryScreen = (props: IProps) => {
   );
 };
 
+const tilesGap = 16;
+
 const styles = StyleSheet.create({
   container: {
     backgroundColor: COLORS.bg500,
     flex: 1,
-    paddingTop: Platform.OS === 'android' ? 20 : 0,
   },
   header: {
     color: 'white',
@@ -51,12 +52,12 @@ const styles = StyleSheet.create({
     padding: 10,
   },
   flatListContentStyle: {
-    gap: 20,
-    padding: 20,
-    paddingBottom: Platform.OS === 'android' ? 64 : 48,
+    gap: tilesGap,
+    padding: tilesGap,
+    paddingBottom: Platform.OS === 'android' ? 22 : 30,
   },
   flatListColumnWrapperStyle: {
-    gap: 20,
+    gap: tilesGap,
   },
 });
 

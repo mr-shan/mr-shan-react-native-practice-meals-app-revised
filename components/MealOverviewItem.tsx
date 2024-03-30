@@ -63,12 +63,13 @@ const styles = StyleSheet.create({
   },
   meta: {
     flexDirection: 'row',
-    justifyContent: 'center',
-    gap: 30,
+    justifyContent: 'space-between',    
     marginTop: 8,
   },
   metaText: {
     color: COLORS.textLight,
+    flex: 1,
+    textAlign: 'center'
   },
 });
 

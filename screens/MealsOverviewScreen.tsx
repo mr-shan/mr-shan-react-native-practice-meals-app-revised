@@ -10,13 +10,13 @@ import {
   NavigationProp,
   ParamListBase,
 } from '@react-navigation/native';
+import { useLayoutEffect } from 'react';
 
 import { MEALS, CATEGORIES } from '../data/dummy-data';
 import Meal from '../models/meal';
 
 import MealOverviewItem from '../components/MealOverviewItem';
 import COLORS from '../constants/colors';
-import { useEffect } from 'react';
 
 interface IProps {
   route: RouteProp<any>;
@@ -28,7 +28,7 @@ const MealsOverviewScreen = (props: IProps) => {
   const selectedCategory = CATEGORIES.find((e) => e.id === categoryId);
   const meals = MEALS.filter((meal) => meal.categoryIds.includes(categoryId));
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     props.navigation.setOptions({
       title: selectedCategory?.title,
       headerStyle: { backgroundColor: selectedCategory?.color },
@@ -66,17 +66,18 @@ const MealsOverviewScreen = (props: IProps) => {
   );
 };
 
+const flatListGap = 14;
+
 const styles = StyleSheet.create({
   container: {
     backgroundColor: COLORS.bg500,
     flex: 1,
-    paddingTop: Platform.OS === 'android' ? 20 : 0,
   },
   flatListContainer: {
-    paddingHorizontal: 16,
-    paddingVertical: 20,
-    paddingBottom: 34,
-    gap: 20,
+    paddingHorizontal: flatListGap,
+    paddingVertical: flatListGap,
+    paddingBottom: Platform.OS === 'ios' ? flatListGap + 8 : flatListGap,
+    gap: flatListGap,
   },
 });
 
