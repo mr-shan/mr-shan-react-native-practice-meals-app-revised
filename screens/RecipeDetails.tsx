@@ -4,12 +4,13 @@ import {
   NavigationProp,
   ParamListBase,
 } from '@react-navigation/native';
-import { useLayoutEffect } from 'react';
+import { useEffect, useLayoutEffect, useState } from 'react';
 
 import MealHeaderDescription from '../components/MealHeaderDescription';
 
 import { MEALS } from '../data/dummy-data';
 import COLORS from '../constants/colors';
+import IconButton from '../components/IconButton';
 
 interface IProps {
   route: RouteProp<any>;
@@ -17,22 +18,43 @@ interface IProps {
 }
 
 const RecipeDetailsScreen = (props: IProps) => {
+  const [favorite, setFavorite] = useState(false);
   const mealId = props.route.params?.mealId;
   if (!mealId) props.navigation.navigate('CategoryScreen');
 
   const selectedMeal = MEALS.find((meal) => meal.id === mealId);
 
+  const favoriteButtonPressHandler = () => {
+    const newFav = !favorite;
+    setFavorite(newFav);
+    if (selectedMeal) selectedMeal.favorite = newFav;
+  };
+
   useLayoutEffect(() => {
     props.navigation.setOptions({
       title: selectedMeal?.title,
+      headerRight: () => (
+        <IconButton
+          color='white'
+          icon={favorite ? 'star' : 'staro'}
+          size={18}
+          onPress={favoriteButtonPressHandler}
+        />
+      ),
     });
-  }, []);
+  }, [favorite]);
+
+  useEffect(() => {
+    if (selectedMeal) {
+      setFavorite(selectedMeal.favorite)
+    }
+  }, [selectedMeal])
 
   return (
     <ScrollView style={styles.container}>
       <View style={styles.header}>
         <Image style={styles.image} source={{ uri: selectedMeal?.imageUrl }} />
-        <View style={{paddingHorizontal: 10, paddingBottom: 7}}>
+        <View style={{ paddingHorizontal: 10, paddingBottom: 7 }}>
           <MealHeaderDescription
             affordability={selectedMeal?.affordability}
             complexity={selectedMeal?.complexity}
@@ -41,7 +63,6 @@ const RecipeDetailsScreen = (props: IProps) => {
         </View>
       </View>
       <View style={styles.body}>
-        {/* <Text style={styles.title}>{selectedMeal?.title}</Text> */}
         <View style={styles.ingredients}>
           <View style={styles.subtitleView}>
             <Text style={styles.subtitle}>Ingredients</Text>
@@ -71,7 +92,9 @@ const RecipeDetailsScreen = (props: IProps) => {
 };
 
 const styles = StyleSheet.create({
-  container: {},
+  container: {
+    marginBottom: 10,
+  },
   image: {
     height: 300,
   },
@@ -88,13 +111,6 @@ const styles = StyleSheet.create({
     padding: 16,
     paddingTop: 0,
   },
-  title: {
-    color: COLORS.text,
-    fontSize: 22,
-    fontWeight: 'bold',
-    textAlign: 'center',
-    marginBottom: 6,
-  },
   subtitleView: {
     borderBottomColor: COLORS.primary900,
     borderBottomWidth: 2,
@@ -110,7 +126,7 @@ const styles = StyleSheet.create({
     marginBottom: 6,
   },
   ingredients: {
-    marginTop: 20,
+    marginTop: 25,
     alignItems: 'center',
   },
   ingredientsWrapper: {
@@ -118,7 +134,6 @@ const styles = StyleSheet.create({
     flexWrap: 'wrap',
     gap: 10,
     justifyContent: 'center',
-    marginBottom: 10,
   },
   ingredientItemView: {
     paddingVertical: 6,
