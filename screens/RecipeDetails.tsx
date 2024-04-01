@@ -4,13 +4,14 @@ import {
   NavigationProp,
   ParamListBase,
 } from '@react-navigation/native';
-import { useEffect, useLayoutEffect, useState } from 'react';
+import { useContext, useEffect, useLayoutEffect, useState } from 'react';
 
 import MealHeaderDescription from '../components/MealHeaderDescription';
 
 import { MEALS } from '../data/dummy-data';
 import COLORS from '../constants/colors';
 import IconButton from '../components/IconButton';
+import { AppContext } from '../store/context';
 
 interface IProps {
   route: RouteProp<any>;
@@ -18,17 +19,22 @@ interface IProps {
 }
 
 const RecipeDetailsScreen = (props: IProps) => {
-  const [favorite, setFavorite] = useState(false);
+  const appContext = useContext(AppContext);
+
   const mealId = props.route.params?.mealId;
   if (!mealId) props.navigation.navigate('CategoryScreen');
 
   const selectedMeal = MEALS.find((meal) => meal.id === mealId);
 
   const favoriteButtonPressHandler = () => {
-    const newFav = !favorite;
-    setFavorite(newFav);
-    if (selectedMeal) selectedMeal.favorite = newFav;
+    if (selectedMeal?.id)
+      appContext.toggleMealFavorite(selectedMeal.id)
   };
+
+  let isMealFavorite = false;
+  if (selectedMeal) {
+    isMealFavorite = appContext.favoriteMealIds.includes(selectedMeal.id)
+  }
 
   useLayoutEffect(() => {
     props.navigation.setOptions({
@@ -36,19 +42,13 @@ const RecipeDetailsScreen = (props: IProps) => {
       headerRight: () => (
         <IconButton
           color='white'
-          icon={favorite ? 'star' : 'staro'}
+          icon={isMealFavorite ? 'star' : 'staro'}
           size={18}
           onPress={favoriteButtonPressHandler}
         />
       ),
     });
-  }, [favorite]);
-
-  useEffect(() => {
-    if (selectedMeal) {
-      setFavorite(selectedMeal.favorite)
-    }
-  }, [selectedMeal])
+  });
 
   return (
     <ScrollView style={styles.container}>

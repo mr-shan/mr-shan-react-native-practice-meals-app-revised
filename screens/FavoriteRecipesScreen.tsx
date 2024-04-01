@@ -1,11 +1,4 @@
-import {
-  StyleSheet,
-  View,
-  FlatList,
-  Platform,
-  ListRenderItemInfo,
-  Text,
-} from 'react-native';
+import { StyleSheet, View, Text } from 'react-native';
 import {
   RouteProp,
   NavigationProp,
@@ -13,10 +6,12 @@ import {
 } from '@react-navigation/native';
 
 import { MEALS } from '../data/dummy-data';
-import Meal from '../models/meal';
 
-import MealOverviewItem from '../components/MealOverviewItem';
+import MealOverviewList from '../components/MealOverviewList';
+
 import COLORS from '../constants/colors';
+import { useContext } from 'react';
+import { AppContext } from '../store/context';
 
 interface IProps {
   route: RouteProp<any>;
@@ -24,7 +19,10 @@ interface IProps {
 }
 
 const FavoriteRecipesScreen = (props: IProps) => {
-  const meals = MEALS.filter((meal) => meal.favorite === true);
+  const appContext = useContext(AppContext);
+  const meals = MEALS.filter((meal) =>
+    appContext.favoriteMealIds.includes(meal.id)
+  );
 
   if (meals.length === 0) {
     return (
@@ -38,45 +36,10 @@ const FavoriteRecipesScreen = (props: IProps) => {
     props.navigation.navigate('RecipeDetailsScreen', { mealId: id });
   };
 
-  const listRenderItem = (data: ListRenderItemInfo<Meal>) => {
-    return (
-      <MealOverviewItem
-        id={data.item.id}
-        title={data.item.title}
-        imageUrl={data.item.imageUrl}
-        duration={data.item.duration}
-        complexity={data.item.complexity}
-        affordability={data.item.affordability}
-        onPress={pressHandler}
-      />
-    );
-  };
-
-  return (
-    <View style={styles.container}>
-      <FlatList
-        data={meals}
-        keyExtractor={(meal: Meal) => meal.id}
-        renderItem={listRenderItem}
-        contentContainerStyle={styles.flatListContainer}
-      />
-    </View>
-  );
+  return <MealOverviewList meals={meals} onPress={pressHandler} />;
 };
 
-const flatListGap = 14;
-
 const styles = StyleSheet.create({
-  container: {
-    backgroundColor: COLORS.bg500,
-    flex: 1,
-  },
-  flatListContainer: {
-    paddingHorizontal: flatListGap,
-    paddingVertical: flatListGap,
-    paddingBottom: Platform.OS === 'ios' ? flatListGap + 8 : flatListGap,
-    gap: flatListGap,
-  },
   noRecipesContainer: {
     flex: 1,
     justifyContent: 'center',

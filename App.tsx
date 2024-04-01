@@ -10,6 +10,8 @@ import MealsOverviewScreen from './screens/MealsOverviewScreen';
 import RecipeDetailsScreen from './screens/RecipeDetails';
 import FavoriteRecipesScreen from './screens/FavoriteRecipesScreen';
 
+import AppContextProvider from './store/context';
+
 import COLORS from './constants/colors';
 
 const Stack = createNativeStackNavigator();
@@ -30,8 +32,8 @@ const DrawerNavigator = () => {
         component={CategoryScreen}
         options={{
           title: 'All Categories',
-          drawerIcon({size, color}) {
-            return <Ionicons name='list' size={size} color={color} />
+          drawerIcon({ size, color }) {
+            return <Ionicons name='list' size={size} color={color} />;
           },
         }}
       />
@@ -40,8 +42,8 @@ const DrawerNavigator = () => {
         component={FavoriteRecipesScreen}
         options={{
           title: 'Favorite Recipes',
-          drawerIcon({size, color}) {
-            return <Ionicons name='heart' size={size} color={color} />
+          drawerIcon({ size, color }) {
+            return <Ionicons name='heart' size={size} color={color} />;
           },
         }}
       />
@@ -53,33 +55,39 @@ export default function App() {
   return (
     <View style={styles.container}>
       <StatusBar style='light' />
-      <NavigationContainer>
-        <Stack.Navigator initialRouteName='CategoryScreen'>
-          <Stack.Screen
-            name='CategoryScreen'
-            component={DrawerNavigator}
-            options={{
-              title: 'All Categories',
-              headerStyle: { backgroundColor: COLORS.primary500 },
-              headerTintColor: 'white',
-              headerShown: false,            
-            }}
-          />
-          <Stack.Screen
-            name='MealsOverviewScreen'
-            component={MealsOverviewScreen}
-          />
-          <Stack.Screen
-            name='RecipeDetailsScreen'
-            component={RecipeDetailsScreen}
-            options={{
-              headerStyle: { backgroundColor: COLORS.primary500 },
-              headerTintColor: 'white',
-              headerBackTitleVisible: false,
-            }}
-          />
-        </Stack.Navigator>
-      </NavigationContainer>
+      <AppContextProvider>
+        <NavigationContainer>
+          <Stack.Navigator initialRouteName='CategoryScreen'>
+            <Stack.Screen
+              name='CategoryScreen'
+              component={DrawerNavigator}
+              options={{
+                title: 'All Categories',
+                headerStyle: { backgroundColor: COLORS.primary500 },
+                headerTintColor: 'white',
+                headerShown: false,
+              }}
+            />
+            <Stack.Screen
+              name='MealsOverviewScreen'
+              component={MealsOverviewScreen}
+              options={{
+                headerTintColor: 'black',
+                headerBackTitleVisible: false,
+              }}
+            />
+            <Stack.Screen
+              name='RecipeDetailsScreen'
+              component={RecipeDetailsScreen}
+              options={{
+                headerStyle: { backgroundColor: COLORS.primary500 },
+                headerTintColor: 'white',
+                headerBackTitleVisible: false,
+              }}
+            />
+          </Stack.Navigator>
+        </NavigationContainer>
+      </AppContextProvider>
     </View>
   );
 }
