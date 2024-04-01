@@ -54,7 +54,7 @@ const RecipeDetailsScreen = (props: IProps) => {
     <ScrollView style={styles.container}>
       <View style={styles.header}>
         <Image style={styles.image} source={{ uri: selectedMeal?.imageUrl }} />
-        <View style={{ paddingHorizontal: 10, paddingBottom: 7 }}>
+        <View style={{ paddingTop: 5, paddingHorizontal: 10, paddingBottom: 8 }}>
           <MealHeaderDescription
             affordability={selectedMeal?.affordability}
             complexity={selectedMeal?.complexity}
