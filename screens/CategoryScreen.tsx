@@ -37,7 +37,7 @@ const CategoryScreen = (props: IProps) => {
   );
 };
 
-const tilesGap = 16;
+const tilesGap = 20;
 
 const styles = StyleSheet.create({
   container: {
